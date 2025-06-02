@@ -106,6 +106,7 @@ Rusty Road currently works with the actix web framework, Sqlx, the Tera template
 - Templating (Tera)
 - CSS Framework (Tailwind CSS)
 - Optional support for GrapesJs editor with tailwind css support
+- **MCP (Model Context Protocol) support for LLM integration**
 
 ## 🚀 Future Scope <a name = "future_scope"></a>
 - Add support for GraphQL.

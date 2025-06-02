@@ -41,6 +41,7 @@ use tokio::io;
 pub mod database;
 pub mod features;
 pub mod generators;
+pub mod mcp;
 
 use crate::features::add_feature;
 use database::*;
@@ -982,6 +983,12 @@ rustyroad migration generate create_users id:serial:primary_key email:string:not
                     .subcommand_required(true)
                     .arg_required_else_help(true)
             )
+            .subcommand(
+                Command::new("mcp")
+                    .about("Start MCP (Model Context Protocol) server for LLM integration")
+                    .subcommand_required(false)
+                    .arg_required_else_help(false)
+            )
     }
 
     pub fn push_args() -> Vec<Arg> {
@@ -1406,6 +1413,12 @@ rustyroad migration generate create_users id:serial:primary_key email:string:not
             }
             Some(("version", _matches)) => {
                 println!("Rusty Road Version: {}", env!("CARGO_PKG_VERSION"));
+            }
+            Some(("mcp", _matches)) => {
+                println!("Starting MCP server for RustyRoad...");
+                if let Err(e) = crate::mcp::RustyRoadMcpServer::start_server().await {
+                    eprintln!("Failed to start MCP server: {}", e);
+                }
             }
             Some(("db", matches)) => match matches.subcommand() {
                 Some(("schema", _)) => {
